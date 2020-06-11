@@ -1,7 +1,8 @@
 // Icon, Command, Interval (Seconds), Signal (> 2)
 static const block blocks[] = {
-	{"🐨",	"date",	0,	3}
+	{"🐨",	"date",	3}
 };
 
 
-static char *delim = " | ";
+static int MAX_LEN = 200;
+static char *DELIM = " | ";
