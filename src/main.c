@@ -28,6 +28,10 @@ void initPipe()
     mkfifo(fifo, 0666);
     // Open fifo for writing
     fd = open(fifo, O_WRONLY);
+    if (fd == -1)
+    {
+        printf("Connection to pipe could not be established.");
+    }
 }
 
 // Close the connection to the pipe
@@ -42,10 +46,28 @@ void writeStatus(char *status)
         write(fd, status, strlen(status));
         write(fd, "\n", 1);
         strcpy(lStatus, status);
+        free(status);
     }
     else {
         printf("Nothing to do.\n");
     }
+}
+
+void executeCommand(const block *current, char *status)
+{
+    printf("Executing command.\n");
+    FILE *cmd;
+    /* Open the command for reading. */
+    cmd = popen(current->command, "r");
+    if (cmd == NULL) {
+        printf("Failed to run command\n" );
+        exit(1);
+    }
+    char *result = malloc(MAX_LEN);
+    fgets(result, MAX_LEN, cmd);
+    pclose(cmd);
+    strcat(status, result);
+    free(result);
 }
 
 int main(int argc, char *argv[])
@@ -54,8 +76,10 @@ int main(int argc, char *argv[])
     lStatus = malloc(sizeof(char) * MAX_LEN);
     parseConfig();
     initPipe();
-    writeStatus("moin");
-    writeStatus("Moiknasöodigh");
+    /* writeStatus("moin"); */
+    /* writeStatus("Moiknasöodigh"); */
+    /* char *result = executeCommand(&blocks[0]); */
+    /* printf("Command result: %s\n", result); */
     while (1) {
     }
     return 0;
@@ -86,10 +110,35 @@ void initializeBlock(const block *current)
     signal(current->signal, sighander);
 }
 
+void getBlockStatus(const block *current, char *status)
+{
+    // Icon
+    if (current->icon != NULL) {
+        strcat(status, current->icon);
+    }
+    strcat(status, DELIM_ICON);
+    executeCommand(current, status);
+    strcat(status, DELIM);
+}
+
+char *getStatus()
+{
+    char *result = malloc(( MAX_LEN + sizeof(DELIM) + sizeof(DELIM_ICON) ) * (sizeof(blocks) / sizeof(blocks[0])));
+    for (int i = 0; i < (sizeof(blocks) / sizeof(blocks[0])); i++) {
+        getBlockStatus(&blocks[i], result);
+    }
+    return result;
+}
+
+void setStatus()
+{
+    writeStatus(getStatus());
+}
+
 // Signal handler
 void sighander(int signal)
 {
     const block *current = getBlock(signal);
     printf("Received signal for %s\n", current->icon);
-    writeStatus(current->icon);
+    setStatus();
 }
