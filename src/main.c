@@ -19,6 +19,13 @@ int fd;
 // Last written status
 char *lStatus;
 
+typedef struct {
+    char* fgColor;
+    char* bgColor;
+    char* status;
+} module;
+module *modules;
+
 // Initlize the named pipe
 void initPipe()
 {
@@ -95,38 +102,73 @@ const block *getBlock(int signal)
     }
     return NULL;
 }
+// Returns the associated blocks index
+int getBlockIndex(int signal)
+{
+    for (int i = 0; i < (sizeof(blocks) / sizeof(blocks[0])); i++) {
+        if (blocks[i].signal == signal) {
+            return i;
+        }
+    }
+    return 0;
+}
 
 // Assign each block a sig handler
 void parseConfig() {
-    for (int i = 0; i < (sizeof(blocks) / sizeof(blocks[0])); i++) {
-        initializeBlock(&blocks[i]);
+    int size = (sizeof(blocks) / sizeof(blocks[0]));
+    modules = malloc(sizeof(module)*size);
+    for (int i = 0; i < size; i++) {
+        initializeBlock(&blocks[i], i);
     }
 }
 
 // Sets up the signal handeling for the given block
-void initializeBlock(const block *current)
+void initializeBlock(const block *current, int index)
 {
     printf("Initlizing block %s with signal %d\n", current->icon, current->signal);
     signal(current->signal, sighander);
+    modules[index].status = malloc(sizeof(char)*MAX_LEN);
+    // Foreground color
+    char *fC = malloc(strlen(current->fgColor)+5);
+    strcpy(fC, "%{F");
+    strcat(fC, current->fgColor);
+    strcat(fC, "}");
+    modules[index].fgColor = fC;
+    // Background color
+    char *bC = malloc(strlen(current->bgColor)+5);
+    strcpy(bC, "%{B");
+    strcat(bC, current->bgColor);
+    strcat(bC, "}");
+    modules[index].bgColor = bC;
+    setBlockStatus(current, index);
 }
 
-void getBlockStatus(const block *current, char *status)
+// Execute command for block and set status for that block
+void setBlockStatus(const block *current, int index)
 {
+    char *status = malloc(sizeof(char)*MAX_LEN);
+    strcpy(status, "");
+    strcat(status, modules[index].fgColor);
+    strcat(status, modules[index].bgColor);
     // Icon
     if (current->icon != NULL) {
         strcat(status, current->icon);
+        strcat(status, DELIM_ICON);
     }
-    strcat(status, DELIM_ICON);
     executeCommand(current, status);
+    strcat(status, "%{F-}%{B-}");
     strcat(status, DELIM);
+    modules[index].status = status;
 }
 
 char *getStatus()
 {
-    char *result = malloc(( MAX_LEN + sizeof(DELIM) + sizeof(DELIM_ICON) ) * (sizeof(blocks) / sizeof(blocks[0])));
+    char *result = malloc(sizeof(char)*MAX_LEN*10);
+    strcpy(result, "");
     for (int i = 0; i < (sizeof(blocks) / sizeof(blocks[0])); i++) {
-        getBlockStatus(&blocks[i], result);
+        strcat(result, modules[i].status);
     }
+    printf("Status: %s\n", result);
     return result;
 }
 
@@ -139,6 +181,8 @@ void setStatus()
 void sighander(int signal)
 {
     const block *current = getBlock(signal);
+    int index = getBlockIndex(signal);
     printf("Received signal for %s\n", current->icon);
+    setBlockStatus(current, index);
     setStatus();
 }
