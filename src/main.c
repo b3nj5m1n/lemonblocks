@@ -21,8 +21,9 @@ int fd;
 char *lStatus;
 // The highest interval
 int maxInterval = 0;
-// Next signal to handle
-int nextSig = 0;
+// 1 if current process should handle signals
+int signalHandler = 1;
+int inpipefd[2];
 
 typedef struct {
     char* fgColor;
@@ -88,31 +89,55 @@ int main(int argc, char *argv[])
     lStatus = malloc(sizeof(char) * MAX_LEN);
     // Parse Config
     parseConfig();
+
+    // Pid of parent
+    pid_t ppid;
+    ppid = getpid();
+
+    pipe(inpipefd);
+
+    // Process for intervals
+    if (fork() == 0)
+    {
+        printf("Started interval handler process.\n");
+        dup2(inpipefd[0], STDIN_FILENO);
+        signalHandler = 0;
+        prctl(PR_SET_PDEATHSIG, SIGHUP);
+        mainLoop(ppid);
+        exit(0);
+    }
+
+    /* // Process for signals */
+    /* if (fork() == 0) */
+    /* { */
+    /*     printf("Started signal handler process.\n"); */
+    /*     prctl(PR_SET_PDEATHSIG, SIGHUP); */
+    /*     signalHandler = 1; */
+    /*     while (1) {} */
+    /*     exit(0); */
+    /* } */
+
+
     // Spawn new thread for handeling intervals
-    pthread_t tid;
-    pthread_create(&tid, NULL, &mainLoop, NULL);
+    /* pthread_t tid; */
+    /* pthread_create(&tid, NULL, &mainLoop, NULL); */
     // Initialize pipe
     initPipe();
+    while(1) {}
     /* writeStatus("moin"); */
     /* writeStatus("Moiknasöodigh"); */
     /* char *result = executeCommand(&blocks[0]); */
     /* printf("Command result: %s\n", result); */
-    mainLoop();
+    /* mainLoop(); */
     return 0;
 }
 
 // Is responsible for intervals
-void *mainLoop()
+void *mainLoop(pid_t ppid)
 {
     int counter = 0;
     while (1)
     {
-        // Handle signals
-        if (nextSig != 0)
-        {
-            sigHandler(nextSig);
-            nextSig = 0;
-        }
 
         counter = (counter + 1) % (maxInterval + 1);
         if (counter == 0) { counter = 1; }
@@ -123,10 +148,13 @@ void *mainLoop()
             int interval = blocks[i].interval; 
             if (interval != 0 && counter % interval == 0) {
                 printf("Interval for %s\n", blocks[i].icon);
-                setBlockStatus(&blocks[i], i);
+                /* setBlockStatus(&blocks[i], i); */
+                kill(ppid, blocks[i].signal);
+                /* char *msg = "kill me"; */
+                /* write(inpipefd[1], msg, strlen(msg)); */
             }
         }
-        setStatus();
+        /* setStatus(); */
         sleep(1);
     }
 }
@@ -165,11 +193,12 @@ void parseConfig() {
     }
 }
 
+
 // Sets up the signal handeling for the given block
 void initializeBlock(const block *current, int index)
 {
     printf("Initlizing block %s with signal %d\n", current->icon, current->signal);
-    signal(current->signal, sighander);
+    signal(current->signal, sighandler);
     modules[index].status = malloc(sizeof(char)*MAX_LEN);
     // Foreground color
     char *fC = malloc(strlen(current->fgColor)+5);
@@ -220,17 +249,19 @@ void setStatus()
     writeStatus(getStatus());
 }
 
-void sigHandler(int signal)
+void handleSignal(int signal)
 {
-    const block *current = getBlock(signal);
-    int index = getBlockIndex(signal);
-    printf("Received signal for %s\n", current->icon);
-    setBlockStatus(current, index);
-    setStatus();
 }
 
 // Signal handler
-void sighander(int signal)
+void sighandler(int signal)
 {
-    nextSig = signal;
+    if (signalHandler == 1)
+    {
+        const block *current = getBlock(signal);
+        int index = getBlockIndex(signal);
+        printf("Received signal for %s\n", current->icon);
+        setBlockStatus(current, index);
+        setStatus();
+    }
 }

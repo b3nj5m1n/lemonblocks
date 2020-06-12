@@ -18,11 +18,11 @@ void *mainLoop();
 const block *getBlock(int signal);
 int getBlockIndex(int signal);
 void parseConfig();
+void parseSigs();
 void initializeBlock(const block *current, int index);
 void setBlockStatus(const block *current, int index);
 char *getStatus();
 void setStatus();
-void sigHandler(int signal);
-void sighander(int signal);
+void sighandler(int signal);
 
 #endif
