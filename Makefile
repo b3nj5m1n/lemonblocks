@@ -7,6 +7,7 @@ CFLAGS = -c
 # Input and output dirs
 ODIR = obj
 SDIR = src
+LINK = -lpthread
 
 # Output binary
 OUT = bin/lemonblocks
@@ -14,7 +15,7 @@ OUT = bin/lemonblocks
 all: $(OUT)
 
 $(OUT): main.o
-	$(CC) $(ODIR)/main.o -o $(OUT)
+	$(CC) $(ODIR)/main.o $(LINK) -o $(OUT)
 
 main.o: src/main.c
 	$(CC) $(CFLAGS) $(SDIR)/main.c -o $(ODIR)/main.o

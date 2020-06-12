@@ -4,6 +4,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <locale.h>
+#include <pthread.h>
 #include <sys/stat.h>
 #include <fcntl.h> 
 #include<sys/prctl.h>
@@ -18,6 +19,10 @@
 int fd;
 // Last written status
 char *lStatus;
+// The highest interval
+int maxInterval = 0;
+// Next signal to handle
+int nextSig = 0;
 
 typedef struct {
     char* fgColor;
@@ -81,15 +86,49 @@ int main(int argc, char *argv[])
 {
     setlocale(LC_ALL, "");
     lStatus = malloc(sizeof(char) * MAX_LEN);
+    // Parse Config
     parseConfig();
+    // Spawn new thread for handeling intervals
+    pthread_t tid;
+    pthread_create(&tid, NULL, &mainLoop, NULL);
+    // Initialize pipe
     initPipe();
     /* writeStatus("moin"); */
     /* writeStatus("Moiknasöodigh"); */
     /* char *result = executeCommand(&blocks[0]); */
     /* printf("Command result: %s\n", result); */
-    while (1) {
-    }
+    mainLoop();
     return 0;
+}
+
+// Is responsible for intervals
+void *mainLoop()
+{
+    int counter = 0;
+    while (1)
+    {
+        // Handle signals
+        if (nextSig != 0)
+        {
+            sigHandler(nextSig);
+            nextSig = 0;
+        }
+
+        counter = (counter + 1) % (maxInterval + 1);
+        if (counter == 0) { counter = 1; }
+        printf("Counter %d\n", counter);
+
+        int size = (sizeof(blocks) / sizeof(blocks[0]));
+        for (int i = 0; i < size; i++) {
+            int interval = blocks[i].interval; 
+            if (interval != 0 && counter % interval == 0) {
+                printf("Interval for %s\n", blocks[i].icon);
+                setBlockStatus(&blocks[i], i);
+            }
+        }
+        setStatus();
+        sleep(1);
+    }
 }
 
 // Returns the associated block based on the signal value
@@ -119,6 +158,10 @@ void parseConfig() {
     modules = malloc(sizeof(module)*size);
     for (int i = 0; i < size; i++) {
         initializeBlock(&blocks[i], i);
+        if (blocks[i].interval > maxInterval)
+        {
+            maxInterval = blocks[i].interval;
+        }
     }
 }
 
@@ -168,7 +211,7 @@ char *getStatus()
     for (int i = 0; i < (sizeof(blocks) / sizeof(blocks[0])); i++) {
         strcat(result, modules[i].status);
     }
-    printf("Status: %s\n", result);
+    /* printf("Status: %s\n", result); */
     return result;
 }
 
@@ -177,12 +220,17 @@ void setStatus()
     writeStatus(getStatus());
 }
 
-// Signal handler
-void sighander(int signal)
+void sigHandler(int signal)
 {
     const block *current = getBlock(signal);
     int index = getBlockIndex(signal);
     printf("Received signal for %s\n", current->icon);
     setBlockStatus(current, index);
     setStatus();
+}
+
+// Signal handler
+void sighander(int signal)
+{
+    nextSig = signal;
 }
