@@ -6,7 +6,7 @@
 #include <locale.h>
 #include <pthread.h>
 #include <sys/stat.h>
-#include <fcntl.h> 
+#include <fcntl.h>
 #include<sys/prctl.h>
 #include<sys/wait.h>
 
@@ -58,8 +58,6 @@ void writeStatus(char *status)
     if (strcmp(lStatus, status) != 0) {
         write(fd, status, strlen(status));
         write(fd, "\n", 1);
-        strcpy(lStatus, status);
-        free(status);
     }
     else {
         printf("Nothing to do.\n");
@@ -145,7 +143,7 @@ void *mainLoop(pid_t ppid)
 
         int size = (sizeof(blocks) / sizeof(blocks[0]));
         for (int i = 0; i < size; i++) {
-            int interval = blocks[i].interval; 
+            int interval = blocks[i].interval;
             if (interval != 0 && counter % interval == 0) {
                 printf("Interval for %s\n", blocks[i].icon);
                 /* setBlockStatus(&blocks[i], i); */
@@ -218,6 +216,8 @@ void initializeBlock(const block *current, int index)
 // Execute command for block and set status for that block
 void setBlockStatus(const block *current, int index)
 {
+    printf("pls send help %s %d\n", current->icon, index);
+    printf("skldjf skljasdf %s\n", modules[0].fgColor);
     char *status = malloc(sizeof(char)*MAX_LEN);
     strcpy(status, "");
     strcat(status, modules[index].fgColor);
@@ -230,27 +230,27 @@ void setBlockStatus(const block *current, int index)
     executeCommand(current, status);
     strcat(status, "%{F-}%{B-}");
     strcat(status, DELIM);
-    modules[index].status = status;
+    strcpy(modules[index].status, status);
 }
 
-char *getStatus()
+void getStatus(char *result)
 {
-    char *result = malloc(sizeof(char)*MAX_LEN*10);
     strcpy(result, "");
     for (int i = 0; i < (sizeof(blocks) / sizeof(blocks[0])); i++) {
         strcat(result, modules[i].status);
     }
-    /* printf("Status: %s\n", result); */
-    return result;
+    printf("Status: %s\n", modules[0].status);
 }
 
 void setStatus()
 {
-    writeStatus(getStatus());
-}
-
-void handleSignal(int signal)
-{
+    char *status = (char *) malloc(MAX_LEN*100);
+    getStatus(status);
+    writeStatus(status);
+    free(lStatus);
+    lStatus = (char *) malloc(MAX_LEN*100);
+    strcpy(lStatus, status);
+    free(status);
 }
 
 // Signal handler
