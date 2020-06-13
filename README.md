@@ -1,8 +1,9 @@
 # lemonblocks
 A status bar generator for lemonbar, inspired by i3blocks and dwmblocks.
 
-![demo](https://i.imgur.com/dmfOPC7.png)
+![demo](https://i.imgur.com/DuCCc2G.png)
 
+![demo](https://i.imgur.com/J1X7mQu.png)
 
 
 # lemonbar
@@ -12,10 +13,10 @@ Lemonbar reads from stdin for the status, it supports clickable areas, the comma
 
 Lemonblocks aims to make feeding the bar easier. You can define your own modules (At compile time, at least for now) which you can asign signals. Every time you want to update one of your modules, you can send a signal to the instance of lemonblocks to run the associated command. This means that you don't have to run a script at certain intervals, instead you update it only when necessary.
 
-Lemonblocks writes to a named pipe which you have to pipe into lemonbar. An example command to start lemonbar looks like this:
+There is now a premade script providing some sensible settings to start lemonbar automatically.
 ```bash
-# Cat from the named pipe as input, set a font for text and a font for emojis, as well as a default background & foreground color
-cat /tmp/lemonblockspipe | bar -p -f "UbuntuMono Nerd" -f "Twemoji" -B "#aa000000" -F "#ff0066"
+# Start lemonbar with default colors, two fonts (Default & Emojis), a set size, etc.
+./start-lemonbar.sh
 ```
 To update a module:
 ```bash
@@ -26,19 +27,21 @@ pkill lemonblocks -3
 # Config
 The config is located in config.h, every time you change something you need to recompile the program.
 ```c
-// Icon, Command, Interval, Signal (> 2), Foreground Color, Background Color
+// Icon, Command, Interval, Signal (Except 2 & 9), Foreground Color, Background Color, Align (Needs to be specified in the correct order here, otherwise modules will overlap)
 static const block blocks[] = {
-	{"🐨",	"./test-scripts/date.sh", 5, 3, "#f8f8ff", "#32cd32"},
-	{"🦏",	"./test-scripts/free-space.sh", 0, 4, "#f8f8ff", "#8040bf"},
-	{"🦜",	"./test-scripts/volume.sh", 0,	5, "#f8f8ff", "#0077ea"},
-	{"🐶",	"./test-scripts/layout.sh", 0,	6, "#f8f8ff", "#ff4d4d"},
-	{"🦈",	"./test-scripts/network.sh", 60,	7, "#f8f8ff", "#2f2f2f"},
+	{"🍍",	"./test-scripts/powermenu.sh", 0, 3, "#f8f8ff", "", 'l'},
+	{"",	"./test-scripts/bspwm.sh", 1, 4, "#f8f8ff", "", 'l'},
+	{"",	"./test-scripts/cmus.sh", 1,	5, "#f8f8ff", "", 'c'},
+	{"🔈",	"./test-scripts/volume.sh", 0,	6, "#f8f8ff", "", 'c'},
+	{"",	"./test-scripts/layout.sh", 0,	7, "#f8f8ff", "", 'r'},
+	{"",	"./test-scripts/network.sh", 60,	8, "#f8f8ff", "", 'r'},
+	{"",	"./test-scripts/date.sh", 60,	10, "#f8f8ff", "", 'r'},
 };
 
 // Maximum length for the output of a module
-static int MAX_LEN = 200;
+static int MAX_LEN = 1500;
 // The delimiter between modules
-static char *DELIM = "   |   ";
+static char *DELIM = "   ";
 // The delimiter between the icon and the command output
-static char *DELIM_ICON = "  ";
+static char *DELIM_ICON = " ";
 ```
