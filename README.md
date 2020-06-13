@@ -6,7 +6,7 @@ A status bar generator for lemonbar, inspired by i3blocks and dwmblocks.
 
 
 # lemonbar
-Lemonbar is a very leightweight bar. The original doesn't support XFT fonts, for that you will have to use a fork, such as [this one](https://aur.archlinux.org/packages/lemonbar-xft-git/), but if you want to have emojis you should probably use [this fork](https://github.com/seitokaichou/bar).
+Lemonbar is a very leightweight bar. The original doesn't support XFT fonts, for that you will have to use a fork, such as [this one](https://aur.archlinux.org/packages/lemonbar-xft-git/), but if you want to have emojis you should probably use [this fork](https://github.com/freundTech/bar).
 
 Lemonbar reads from stdin for the status, it supports clickable areas, the commands will be written to stout.
 

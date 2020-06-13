@@ -10,9 +10,9 @@ COLOR_DEFAULT_FG="#f5f5f5"
 COLOR_DEFAULT_BG="#aa171517"
 PANEL_WM_NAME="lemonbar"
 
-killall "bar"
+killall "lemonbar"
 
-cat "/tmp/lemonblockspipe" | bar -a 12 \
+cat "/tmp/lemonblockspipe" | lemonbar -a 12 \
     -g "$PANEL_WIDTH"x"$PANEL_HEIGHT"+"$PANEL_HORIZONTAL_OFFSET"+"$PANEL_VERTICAL_OFFSET" \
     -f "$PANEL_FONT" -f "$PANEL_ICON_FONT" -F "$COLOR_DEFAULT_FG" -B "$COLOR_DEFAULT_BG" \
     -n "$PANEL_WM_NAME" | bash &
