@@ -13,11 +13,26 @@ Lemonbar reads from stdin for the status, it supports clickable areas, the comma
 
 Lemonblocks aims to make feeding the bar easier. You can define your own modules (At compile time, at least for now) which you can asign signals. Every time you want to update one of your modules, you can send a signal to the instance of lemonblocks to run the associated command. This means that you don't have to run a script at certain intervals, instead you update it only when necessary.
 
+# Installing
+```bash
+sudo make install
+```
+# Running
+
+## Lemonbar
+
 There is now a premade script providing some sensible settings to start lemonbar automatically.
 ```bash
 # Start lemonbar with default colors, two fonts (Default & Emojis), a set size, etc.
-./start-lemonbar.sh
+start-lemonbar.sh &
 ```
+## Lemonblocks
+```bash
+lemonblocks &
+```
+
+# Updating
+
 To update a module:
 ```bash
 # 3 is the signal for your module
