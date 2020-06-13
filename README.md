@@ -1,6 +1,10 @@
 # lemonblocks
 A status bar generator for lemonbar, inspired by i3blocks and dwmblocks.
 
+![demo](https://i.imgur.com/dmfOPC7.png)
+
+
+
 # lemonbar
 Lemonbar is a very leightweight bar. The original doesn't support XFT fonts, for that you will have to use a fork, such as [this one](https://aur.archlinux.org/packages/lemonbar-xft-git/), but if you want to have emojis you should probably use [this fork](https://github.com/seitokaichou/bar).
 
@@ -22,10 +26,13 @@ pkill lemonblocks -3
 # Config
 The config is located in config.h, every time you change something you need to recompile the program.
 ```c
-// Icon, Command, Signal (> 2)
+// Icon, Command, Interval, Signal (> 2), Foreground Color, Background Color
 static const block blocks[] = {
-	{"🐨",	"./test-scripts/date.sh",	3},
-	{"🦏",	"./test-scripts/free-space.sh",	4},
+	{"🐨",	"./test-scripts/date.sh", 5, 3, "#f8f8ff", "#32cd32"},
+	{"🦏",	"./test-scripts/free-space.sh", 0, 4, "#f8f8ff", "#8040bf"},
+	{"🦜",	"./test-scripts/volume.sh", 0,	5, "#f8f8ff", "#0077ea"},
+	{"🐶",	"./test-scripts/layout.sh", 0,	6, "#f8f8ff", "#ff4d4d"},
+	{"🦈",	"./test-scripts/network.sh", 60,	7, "#f8f8ff", "#2f2f2f"},
 };
 
 // Maximum length for the output of a module
