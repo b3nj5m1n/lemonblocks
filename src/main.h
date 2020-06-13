@@ -8,6 +8,7 @@ typedef struct {
 	unsigned int signal;
 	char* fgColor;
 	char* bgColor;
+	char align;
 } block;
 
 void initPipe();

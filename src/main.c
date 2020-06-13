@@ -17,13 +17,31 @@
 
 // File descriptor for the pipe
 int fd;
-// Last written status
-char *lStatus;
+/* // Last written status */
+/* char *lStatus; */
 // The highest interval
 int maxInterval = 0;
 // 1 if current process should handle signals
 int signalHandler = 1;
 int inpipefd[2];
+// Contains the indicies of all right/center/left aligned modules
+/* struct linkedInt { */
+/*     int content; */
+/*     struct linkedInt *next; */
+/* }; */
+/* struct linkedInt startRA; */
+/* struct linkedInt startCA; */
+/* struct linkedInt startLA; */
+/* void appendInt(struct linkedInt *itemFromList, struct linkedInt *appendee) */
+/* { */
+/*     printf("fuuuuuuuuuuuuuuuuuuuuuuck"); */
+/*     struct linkedInt *current = itemFromList; */
+/*     while (current->next != NULL) */
+/*     { */
+/*         current = current->next; */
+/*     } */
+/*     current->next = itemFromList; */
+/* } */
 
 typedef struct {
     char* fgColor;
@@ -55,13 +73,13 @@ void closePipe()
 
 void writeStatus(char *status)
 {
-    if (strcmp(lStatus, status) != 0) {
+    /* if (strcmp(lStatus, status) != 0) { */
         write(fd, status, strlen(status));
         write(fd, "\n", 1);
-    }
-    else {
-        printf("Nothing to do.\n");
-    }
+    /* } */
+    /* else { */
+    /*     printf("Nothing to do.\n"); */
+    /* } */
 }
 
 void executeCommand(const block *current, char *status)
@@ -84,7 +102,7 @@ void executeCommand(const block *current, char *status)
 int main(int argc, char *argv[])
 {
     setlocale(LC_ALL, "");
-    lStatus = malloc(sizeof(char) * MAX_LEN);
+    /* lStatus = malloc(sizeof(char) * MAX_LEN); */
     // Parse Config
     parseConfig();
 
@@ -198,16 +216,41 @@ void initializeBlock(const block *current, int index)
     printf("Initlizing block %s with signal %d\n", current->icon, current->signal);
     signal(current->signal, sighandler);
     modules[index].status = malloc(sizeof(char)*MAX_LEN);
+    // Align
+    /* char *align = malloc(strlen(current->align)+5); */
+    /* strcpy(align, "%{"); */
+    /* if (strcmp(current->align, "") != 0) { */
+    /*     strcat(align, current->align); */
+    /* } else { */
+    /*     strcat(align, "l"); */
+    /* } */
+    /* strcat(align, "}"); */
+    /* modules[index].align = align; */
+    /* struct linkedInt alignment; */
+    /* alignment.content = index; */
+    /* printf("i don't want to live on this planet anymore\n"); */
+    /* if (strcmp(current->align, "r") == 0) { appendInt(&startRA, &alignment); printf("1\n"); } */
+    /* else if (strcmp(current->align, "c") == 0) { appendInt(&startCA, &alignment); printf("1\n"); } */
+    /* else if (strcmp(current->align, "l") == 0) { appendInt(&startLA, &alignment); printf("1\n"); } */
+    /* printf("byyyee have a great time\n"); */
     // Foreground color
     char *fC = malloc(strlen(current->fgColor)+5);
     strcpy(fC, "%{F");
-    strcat(fC, current->fgColor);
+    if (strcmp(current->fgColor, "") != 0) {
+        strcat(fC, current->fgColor);
+    } else {
+        strcat(fC, "-");
+    }
     strcat(fC, "}");
     modules[index].fgColor = fC;
     // Background color
     char *bC = malloc(strlen(current->bgColor)+5);
     strcpy(bC, "%{B");
-    strcat(bC, current->bgColor);
+    if (strcmp(current->bgColor, "") != 0) {
+        strcat(bC, current->bgColor);
+    } else {
+        strcat(bC, "-");
+    }
     strcat(bC, "}");
     modules[index].bgColor = bC;
     setBlockStatus(current, index);
@@ -216,10 +259,9 @@ void initializeBlock(const block *current, int index)
 // Execute command for block and set status for that block
 void setBlockStatus(const block *current, int index)
 {
-    printf("pls send help %s %d\n", current->icon, index);
-    printf("skldjf skljasdf %s\n", modules[0].fgColor);
     char *status = malloc(sizeof(char)*MAX_LEN);
     strcpy(status, "");
+    /* strcat(status, modules[index].align); */
     strcat(status, modules[index].fgColor);
     strcat(status, modules[index].bgColor);
     // Icon
@@ -230,16 +272,24 @@ void setBlockStatus(const block *current, int index)
     executeCommand(current, status);
     strcat(status, "%{F-}%{B-}");
     strcat(status, DELIM);
-    strcpy(modules[index].status, status);
+    /* strcpy(modules[index].status, status); */
+    modules[index].status = status;
 }
 
 void getStatus(char *result)
 {
     strcpy(result, "");
+    char prevAlign = ' ';
     for (int i = 0; i < (sizeof(blocks) / sizeof(blocks[0])); i++) {
+        if (prevAlign != blocks[i].align) {
+            strcat(result, "%{");
+            strcat(result, &blocks[i].align);
+            strcat(result, "}");
+        }
         strcat(result, modules[i].status);
+        printf("Status: %s\n", modules[i].status);
+        prevAlign = blocks[i].align;
     }
-    printf("Status: %s\n", modules[0].status);
 }
 
 void setStatus()
@@ -247,10 +297,11 @@ void setStatus()
     char *status = (char *) malloc(MAX_LEN*100);
     getStatus(status);
     writeStatus(status);
-    free(lStatus);
-    lStatus = (char *) malloc(MAX_LEN*100);
-    strcpy(lStatus, status);
-    free(status);
+    /* free(lStatus); */
+    /* lStatus = (char *) malloc(MAX_LEN*100); */
+    /* strcpy(lStatus, status); */
+    /* free(status); */
+    /* lStatus = status; */
 }
 
 // Signal handler
