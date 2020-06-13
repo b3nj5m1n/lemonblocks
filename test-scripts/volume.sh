@@ -6,5 +6,5 @@ volume=$(pactl list sinks | grep '^[[:space:]]Volume:' | \
 printf "%%{A1:amixer set Master toggle; pkill lemonblocks -6:}\
 %%{A4:amixer -q sset Master 1%%+; pkill lemonblocks -6:}\
 %%{A5:amixer -q sset Master 1%%-; pkill lemonblocks -6:}\
-$volume%%\
+$volume %% \
 %%{A1}%%{A4}%%{A5}"

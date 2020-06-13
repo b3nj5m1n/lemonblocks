@@ -9,21 +9,21 @@ retval=$?
 
 if [ $retval -ne 0 ]; then
     # If the return value is not 0, then echo nothing, since cmus is not running
-    echo 
+    printf " "
     exit
 else
     # Cmus is running, so find out if it's playing or paused and echo the corresponding glyph
     if grep -q "status playing"  <<< "$info"
     then 
-        printf "%%{A:cmus-remote -u; pkill lemonblocks -5:} \
-            %%{A4:cmus-remote -v +1%%:} \
-            %%{A5:cmus-remote -v -1%%:} \
-             ";
+        printf "%%{A:cmus-remote -u; pkill lemonblocks -5:}\
+%%{A4:cmus-remote -v +1%%:}\
+%%{A5:cmus-remote -v -1%%:}\
+ ";
     else
-        printf "%%{A1:cmus-remote -u; pkill lemonblocks -5:} \
-            %%{A4:cmus-remote -v +1%%:} \
-            %%{A5:cmus-remote -v -1%%:} \
-              %%{A1}%%{A4}%%{A5}";
+        printf "%%{A1:cmus-remote -u; pkill lemonblocks -5:}\
+%%{A4:cmus-remote -v +1%%:}\
+%%{A5:cmus-remote -v -1%%:}\
+  %%{A1}%%{A4}%%{A5}";
         # pkill lemonblocks -5
         exit
     fi

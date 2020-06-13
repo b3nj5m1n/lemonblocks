@@ -12,11 +12,11 @@ current=$(bspc query -D -d .focused)
 
 ### Color definitions
 # Default background color
-cdBACKGROUND="#f8f8ff"
+cdBACKGROUND="#1d1f21"
 # Default foreground color
-cdFOREGROUND="#171517"
+cdFOREGROUND="#f8f8ff"
 # Default underline color
-cdUNDERLINE="#f8f8ff"
+cdUNDERLINE="$cdBACKGROUND"
 # Occupied underline color
 coUNDERLINE="#00ff99"
 # Focused underline color

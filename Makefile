@@ -26,7 +26,7 @@ main.o: src/main.c
 
 install: $(OUT)
 	install -D -m 755 ${OUT} ${BINDIR}/lemonblocks
-	install -D -m 755 start-lemonbar.sh ${BINDIR}/start-lemonbar.sh
+	install -D -m 755 start.sh ${BINDIR}/start-lemonbar.sh
 	install -D -m 755 test-scripts/* ${BINDIR}/
 
 clean:

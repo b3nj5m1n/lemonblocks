@@ -2,4 +2,4 @@
 
 date=$(date "+%d/%m/%y %H:%M")
 
-printf "$date"
+printf " $date "

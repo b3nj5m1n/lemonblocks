@@ -1,3 +1,3 @@
 #!/bin/bash
 
-printf "[Arch]"
+printf " [Arch] 🐧 "
