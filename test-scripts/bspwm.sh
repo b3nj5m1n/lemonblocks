@@ -24,7 +24,7 @@ cfUNDERLINE="#ff0066"
 
 ### Other variables
 # Padding will be applied to both sides
-padding="   "
+padding="  "
 # u = underline, o = overline
 uoline="o"
 

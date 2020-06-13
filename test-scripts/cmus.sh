@@ -18,12 +18,12 @@ else
         printf "%%{A:cmus-remote -u; pkill lemonblocks -5:} \
             %%{A4:cmus-remote -v +1%%:} \
             %%{A5:cmus-remote -v -1%%:} \
-            ▶  ";
+             ";
     else
         printf "%%{A1:cmus-remote -u; pkill lemonblocks -5:} \
             %%{A4:cmus-remote -v +1%%:} \
             %%{A5:cmus-remote -v -1%%:} \
-            ⏸  %%{A1}%%{A4}%%{A5}";
+              %%{A1}%%{A4}%%{A5}";
         # pkill lemonblocks -5
         exit
     fi

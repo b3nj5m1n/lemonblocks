@@ -1,18 +1,20 @@
 #!/bin/bash
 
+CLICKABLE_AREAS=20
 PANEL_WIDTH=$(xdpyinfo | awk '/dimensions/{print $2}' | cut -d 'x' -f 1)
-PANEL_HEIGHT=25
+PANEL_HEIGHT=30
 PANEL_HORIZONTAL_OFFSET=0
 PANEL_VERTICAL_OFFSET=0
-PANEL_FONT="UbuntuMono Nerd"
-PANEL_ICON_FONT="Twemoji"
+PANEL_FONT="UbuntuMono Nerd Font Mono:size=12"
+PANEL_ICON_FONT="Twemoji:size=12"
 COLOR_DEFAULT_FG="#f5f5f5"
 COLOR_DEFAULT_BG="#aa171517"
+UNDERLINE_HEIGHT=3
 PANEL_WM_NAME="lemonbar"
 
 killall "lemonbar"
 
-cat "/tmp/lemonblockspipe" | lemonbar -a 12 \
+cat "/tmp/lemonblockspipe" | lemonbar -a "$CLICKABLE_AREAS" \
     -g "$PANEL_WIDTH"x"$PANEL_HEIGHT"+"$PANEL_HORIZONTAL_OFFSET"+"$PANEL_VERTICAL_OFFSET" \
     -f "$PANEL_FONT" -f "$PANEL_ICON_FONT" -F "$COLOR_DEFAULT_FG" -B "$COLOR_DEFAULT_BG" \
-    -n "$PANEL_WM_NAME" | bash &
+    -u "$UNDERLINE_HEIGHT" -n "$PANEL_WM_NAME" | bash &
