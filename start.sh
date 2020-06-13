@@ -12,9 +12,17 @@ COLOR_DEFAULT_BG="#aa171517"
 UNDERLINE_HEIGHT=3
 PANEL_WM_NAME="lemonbar"
 
+# Kill potential instances of lemonbar & lemonblocks
 killall "lemonbar"
+killall "lemonblocks"
 
-cat "/tmp/lemonblockspipe" | lemonbar -a "$CLICKABLE_AREAS" \
+# Make sure the named pipe already exists
+mkfifo /tmp/lemonblockspipe
+
+# Start lemonbar
+cat "/tmp/lemonblockspipe" | lemonbar -p -a "$CLICKABLE_AREAS" \
     -g "$PANEL_WIDTH"x"$PANEL_HEIGHT"+"$PANEL_HORIZONTAL_OFFSET"+"$PANEL_VERTICAL_OFFSET" \
     -f "$PANEL_FONT" -f "$PANEL_ICON_FONT" -F "$COLOR_DEFAULT_FG" -B "$COLOR_DEFAULT_BG" \
     -u "$UNDERLINE_HEIGHT" -n "$PANEL_WM_NAME" | bash &
+
+lemonblocks

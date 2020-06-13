@@ -17,18 +17,13 @@ Lemonblocks aims to make feeding the bar easier. You can define your own modules
 ```bash
 sudo make install
 ```
-# Running
+# Starting
 
-## Lemonbar
+The script called start.sh will start lemonbar with sensible default settings as well as lemonblocks.
 
-There is now a premade script providing some sensible settings to start lemonbar automatically.
+The script is moved to /usr/bin when installing, you can call it like this:
 ```bash
-# Start lemonbar with default colors, two fonts (Default & Emojis), a set size, etc.
 start-lemonbar.sh &
-```
-## Lemonblocks
-```bash
-lemonblocks &
 ```
 
 # Updating
