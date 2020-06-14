@@ -18,11 +18,15 @@ OUT = bin/lemonblocks
 
 all: $(OUT)
 
-$(OUT): main.o
-	$(CC) $(ODIR)/main.o $(LINK) -o $(OUT)
+$(OUT): main.o configParser.o signalHandler.o
+	$(CC) $(ODIR)/* $(LINK) -o $(OUT)
 
 main.o: src/main.c
 	$(CC) $(CFLAGS) $(SDIR)/main.c -o $(ODIR)/main.o
+configParser.o: src/configParser.c
+	$(CC) $(CFLAGS) $(SDIR)/configParser.c -o $(ODIR)/configParser.o
+signalHandler.o: src/signalHandler.c
+	$(CC) $(CFLAGS) $(SDIR)/signalHandler.c -o $(ODIR)/signalHandler.o
 
 install: $(OUT)
 	install -D -m 755 ${OUT} ${BINDIR}/lemonblocks

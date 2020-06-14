@@ -7,6 +7,11 @@
 
 /* This file starts 2 other processes and pipes results to lemonbar */
 
+/* Headers */
+#include "main.h"
+#include "structs.h"
+#include "configParser.h"
+#include "signalHandler.h"
 
 
 /* Constants */
@@ -19,6 +24,10 @@ const char* fifo = "/tmp/lemonblockspipe";
 
 // File descriptor for named pipe used by lemonbar
 int fd;
+// Stores all of the blocks
+block *blocks;
+// How many blocks there are in total
+int numOfBlocks;
 
 
 // Connect to the named pipe used by lemonbar
@@ -60,6 +69,26 @@ void flushPipe()
 
 int main(int argc, char *argv[])
 {
+    numOfBlocks = 0;
+    blocks = parseConfig(&numOfBlocks);
+
+    printf("Number of blocks: %d\n", numOfBlocks);
+
+    for (int i = 0; i < numOfBlocks; i++) {
+        printf("Interval: %d, ", blocks[i].interval);
+        printf("Signal: %d, ", blocks[i].signal);
+        printf("Icon: %s, ", blocks[i].icon);
+        printf("Command: %s, ", blocks[i].command);
+        printf("Alignment: %c, ", blocks[i].alignment);
+        printf("Status: %s, ", blocks[i].status);
+        printf("\n");
+    }
+
+    parseSignals(blocks, &numOfBlocks);
+
+    while (1) {
+
+    }
 
     return 0;
 }
