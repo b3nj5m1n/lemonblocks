@@ -139,7 +139,9 @@ int main(int argc, char *argv[])
     /* pthread_create(&tid, NULL, &mainLoop, NULL); */
     // Initialize pipe
     initPipe();
-    while(1) {}
+    while(1) {
+        sleep(1);
+    }
     /* writeStatus("moin"); */
     /* writeStatus("Moiknasöodigh"); */
     /* char *result = executeCommand(&blocks[0]); */
