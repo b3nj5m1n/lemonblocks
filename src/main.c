@@ -87,7 +87,7 @@ int main(int argc, char *argv[])
     parseSignals(blocks, &numOfBlocks);
 
     while (1) {
-
+        sleep(1);
     }
 
     return 0;
