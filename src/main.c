@@ -12,6 +12,7 @@
 #include "structs.h"
 #include "configParser.h"
 #include "signalHandler.h"
+#include "intervalHandler.h"
 
 
 /* Constants */
@@ -70,9 +71,10 @@ void flushPipe()
 int main(int argc, char *argv[])
 {
     numOfBlocks = 0;
-    blocks = parseConfig(&numOfBlocks);
+    int highestInterval = 0;
+    blocks = parseConfig(&numOfBlocks, &highestInterval);
 
-    printf("Number of blocks: %d\n", numOfBlocks);
+    printf("Number of blocks: %d highest interval: %d\n", numOfBlocks, highestInterval);
 
     for (int i = 0; i < numOfBlocks; i++) {
         printf("Interval: %d, ", blocks[i].interval);
@@ -85,6 +87,10 @@ int main(int argc, char *argv[])
     }
 
     parseSignals(blocks, &numOfBlocks);
+
+    if (highestInterval > 0) {
+        startIntervalHandler(highestInterval, blocks, numOfBlocks);
+    }
 
     while (1) {
         sleep(1);

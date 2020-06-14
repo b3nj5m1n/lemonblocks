@@ -12,7 +12,7 @@
 #include "configParser.h"
 #include "signalHandler.h"
 
-block *parseConfig(int *numOfBlocks)
+block *parseConfig(int *numOfBlocks, int *highestInterval)
 {
     // Set locale to have utf-8 support
     if (!setlocale(LC_CTYPE, "")) {
@@ -61,6 +61,9 @@ block *parseConfig(int *numOfBlocks)
         // Interval
         field = strtok(line, "#");
         current.interval = atoi(field);
+        if (current.interval > *highestInterval) {
+            *highestInterval = current.interval;
+        }
         // Signal
         field = strtok(NULL, "#");
         current.signal = atoi(field);

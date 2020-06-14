@@ -3,7 +3,7 @@
 
 #include "structs.h"
 
-block *parseConfig();
+block *parseConfig(int *, int *);
 
 #endif
 
