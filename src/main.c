@@ -4,6 +4,8 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <string.h>
+#include <sys/prctl.h>
+#include <signal.h>
 
 /* This file starts 2 other processes and pipes results to lemonbar */
 
@@ -70,26 +72,46 @@ void flushPipe()
 
 int main(int argc, char *argv[])
 {
+    // How many blocks are there in total
     numOfBlocks = 0;
+    // What is the highest interval in the config file
     int highestInterval = 0;
+    // Parse the config into an array of block structs
     blocks = parseConfig(&numOfBlocks, &highestInterval);
 
-    printf("Number of blocks: %d highest interval: %d\n", numOfBlocks, highestInterval);
+    // Pid of current process to make sure only the parent process handles signals
+    pid_t ppid = getpid();
 
-    for (int i = 0; i < numOfBlocks; i++) {
-        printf("Interval: %d, ", blocks[i].interval);
-        printf("Signal: %d, ", blocks[i].signal);
-        printf("Icon: %s, ", blocks[i].icon);
-        printf("Command: %s, ", blocks[i].command);
-        printf("Alignment: %c, ", blocks[i].alignment);
-        printf("Status: %s, ", blocks[i].status);
-        printf("\n");
-    }
+    // Parse the array of blocks and generate a signal for every one, also set the pid of the process allowed to handle signals
+    parseSignals(blocks, &numOfBlocks, ppid);
 
-    parseSignals(blocks, &numOfBlocks);
+    /* printf("Number of blocks: %d highest interval: %d\n", numOfBlocks, highestInterval); */
 
+    /* for (int i = 0; i < numOfBlocks; i++) { */
+    /*     printf("Interval: %d, ", blocks[i].interval); */
+    /*     printf("Signal: %d, ", blocks[i].signal); */
+    /*     printf("Icon: %s, ", blocks[i].icon); */
+    /*     printf("Command: %s, ", blocks[i].command); */
+    /*     printf("Alignment: %c, ", blocks[i].alignment); */
+    /*     printf("Status: %s, ", blocks[i].status); */
+    /*     printf("\n"); */
+    /* } */
+
+
+    // If there is at least one interval higher then zero, the interval handler is needed
     if (highestInterval > 0) {
-        startIntervalHandler(highestInterval, blocks, numOfBlocks);
+        /* Create a new process for handeling the intervals */
+        printf("Intervals are required, creating child process.\n");
+
+        // Process for intervals
+        if (fork() == 0)
+        {
+            // Make sure this process dies if the parent dies
+            prctl(PR_SET_PDEATHSIG, SIGHUP);
+            // Start the interval handler
+            startIntervalHandler(highestInterval, blocks, numOfBlocks, ppid);
+            exit(0);
+        }
     }
 
     while (1) {

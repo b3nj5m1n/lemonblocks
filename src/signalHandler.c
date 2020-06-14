@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <signal.h>
+#include <unistd.h>
 
 /* This file handles signals send to the program */
 
@@ -10,6 +11,7 @@
 
 block *sig_blocks;
 int *sig_numOfBlocks;
+int PID;
 
 // Add signal for the given block
 void addSignal(block *b)
@@ -19,13 +21,14 @@ void addSignal(block *b)
 }
 
 // Set signals for all modules in the block array
-void parseSignals(block *blocks_, int *numberOfBlocks_)
+void parseSignals(block *blocks_, int *numberOfBlocks_, int whitelistPID)
 {
     sig_blocks = blocks_;
     sig_numOfBlocks = numberOfBlocks_;
     for (int i = 0; i < *sig_numOfBlocks; i++) {
         addSignal(&sig_blocks[i]);
     }
+    PID = whitelistPID;
 }
 
 // Get the index associated with a signal
@@ -45,10 +48,11 @@ int getIndex(int signal)
 // Function executed when a signal is received
 void sighandler(int signal)
 {
-    // Get the index of the block for the received signal
-    int index = getIndex(signal);
-
-    printf("Received signal %d for block %s.\n", signal, sig_blocks[index].icon);
-
+    // Make sure only the parent process handles signals
+    if (PID == getpid()) {
+        // Get the index of the block for the received signal
+        int index = getIndex(signal);
+        printf("Received signal %d for block %s.\n", signal, sig_blocks[index].icon);
+    }
 }
 
