@@ -25,4 +25,11 @@ cat "/tmp/lemonblockspipe" | lemonbar -p -a "$CLICKABLE_AREAS" \
     -f "$PANEL_FONT" -f "$PANEL_ICON_FONT" -F "$COLOR_DEFAULT_FG" -B "$COLOR_DEFAULT_BG" \
     -u "$UNDERLINE_HEIGHT" -n "$PANEL_WM_NAME" | bash &
 
+sleep 0.5
+
+# Make sure lemonbar is hidden below a fullscreen window
+## Bspwm
+wid=$(xdo id -a "$PANEL_WM_NAME")
+xdo above -t "$(xdo id -N Bspwm -n root | sort | head -n 1)" "$wid"
+
 lemonblocks
