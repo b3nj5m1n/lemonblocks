@@ -5,12 +5,15 @@
 /* Headers */
 #include "structs.h"
 #include "main.h"
+#include "statusHandler.h"
 
 
 /* Configuration */
-const char *FOREGROUND_COLOR[3] = { "%{F", "}", "%{F-}" };
-const char *BACKGROUND_COLOR[3] = { "%{B", "}", "%{B-}" };
-const char *LINE_COLOR[3] = { "%{U", "}", "%{U-}" };
+char *DELIMITER = "  ";
+char *ICON_DELIMITER = " ";
+const char *FOREGROUND_COLOR[3] = { "%{F#", "}", "%{F-}" };
+const char *BACKGROUND_COLOR[3] = { "%{B#", "}", "%{B-}" };
+const char *LINE_COLOR[3] = { "%{U#", "}", "%{U-}" };
 const char *LEFT_CLICK[3] = { "%{A1:", ":}", "%{A1}" };
 const char *MIDDLE_CLICK[3] = { "%{A2:", ":}", "%{A2}" };
 const char *RIGHT_CLICK[3] = { "%{A3:", ":}", "%{A3}" };
@@ -50,14 +53,62 @@ char *setAttribute(char *content, const char **attributeConfig, char *attributeC
     return result;
 }
 
-// Write blocks status to pipe
-void writeStatus(block *blockToWrite)
+// Write status for all blocks to pipe
+void writeFullStatus(block *blocks, int numOfBlocks)
 {
-    char *status;
-    status = setAttribute(blockToWrite->status, BACKGROUND_COLOR, blockToWrite->bgColor);
-    status = setAttribute(blockToWrite->status, FOREGROUND_COLOR, blockToWrite->fgColor);
+    // Flush pipe to begin with
+    /* flushPipe(); */
+
+    // Variable for status to write
+    char *status = malloc(sizeof(char) * numOfBlocks * 2048 * 2);
+    strcpy(status, "\n");
+
+    // Keep track of alignment
+    char *alignment = " ";
+    // Loop over all blocks
+    for (int i = 0; i < numOfBlocks; i++) {
+        // If the alignment changed, write the new one to the pipe
+        if (strcmp(alignment, blocks[i].alignment) != 0) {
+            strcat(status, "%{");
+            strcat(status, blocks[i].alignment);
+            strcat(status, "}");
+        } else {
+            // The alignment didn't change, so write the delimiter first
+            strcat(status, DELIMITER);
+        }
+        // Set for and background color
+        strcat(status, "%{F#");
+        strcat(status, blocks[i].fgColor);
+        strcat(status, "}");
+        strcat(status, "%{B#");
+        strcat(status, blocks[i].bgColor);
+        strcat(status, "}");
+
+
+
+        // Write the icon for the current block
+        strcat(status, blocks[i].icon);
+        // Write the icon delimiter
+        strcat(status, ICON_DELIMITER);
+        // Write the status for the current block to the pipe
+        strcat(status, blocks[i].status);
+
+
+        // Change the alignment to the alignment of the current block
+        alignment = blocks[i].alignment;
+
+
+
+        // Reset for and background color;
+        strcat(status, "%{B-}");
+        strcat(status, "%{F-}");
+    }
+    /* printf("%s\n", status); */
+    /* strcat(status, "\n"); */
     writeToPipe(status);
     free(status);
+    // Flush the pipe to see the new changes in the bar
+    /* flushPipe(); */
 }
 
 // Run the associated command and update the status, return 0 if the status has changed

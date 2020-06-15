@@ -21,7 +21,7 @@
 /* Constants */
 
 // Path to the named pipe used by lemonbar
-const char* fifo = "/tmp/lemonblockspipetest";
+const char* fifo = "/tmp/lemonblockspipe";
 
 
 /* Global Variables */
@@ -67,7 +67,8 @@ void writeToPipe(char *buffer)
 // Write \n to pipe and refresh lemonbar
 void flushPipe()
 {
-    writeToPipe("\n");
+    /* writeToPipe("\n"); */
+    write(fd, "\n", 1);
 }
 
 
@@ -86,8 +87,7 @@ int main(int argc, char *argv[])
     // Parse the array of blocks and generate a signal for every one, also set the pid of the process allowed to handle signals
     parseSignals(blocks, &numOfBlocks, ppid);
 
-    /* printf("Number of blocks: %d highest interval: %d\n", numOfBlocks, highestInterval); */
-
+    // Loop over all blocks and update their status
     for (int i = 0; i < numOfBlocks; i++) {
         /* printf("Interval: %d, ", blocks[i].interval); */
         /* printf("Signal: %d, ", blocks[i].signal); */
@@ -121,7 +121,8 @@ int main(int argc, char *argv[])
     // Connect to the pipe
     connectToPipe();
 
-    writeStatus(&blocks[0]);
+    // Write the full inital status to the bar
+    /* writeFullStatus(blocks, numOfBlocks); */
 
     while (1) {
         sleep(1);

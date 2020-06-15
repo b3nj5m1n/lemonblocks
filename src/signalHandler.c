@@ -18,7 +18,7 @@ int PID;
 void addSignal(block *b)
 {
     signal(b->signal, sighandler);
-    printf("Added signal %d for block %s.\n", b->signal, b->icon);
+    /* printf("Added signal %d for block %s.\n", b->signal, b->icon); */
 }
 
 // Set signals for all modules in the block array
@@ -54,9 +54,11 @@ void sighandler(int signal)
         // Get the index of the block for the received signal
         int index = getIndex(signal);
         printf("Received signal %d for block %s\n", signal, sig_blocks[index].icon);
-        if (updateStatus(&sig_blocks[index]) == 0) {
-            printf("Status has changed. New status: %s\n", sig_blocks[index].status);
-        }
+        // Test if the status has changed
+        updateStatus(&sig_blocks[index]);
+        /* if (updateStatus(&sig_blocks[index]) == 0) { */
+        writeFullStatus(sig_blocks, *sig_numOfBlocks);
+        /* } */
     }
 }
 

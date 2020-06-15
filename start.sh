@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CLICKABLE_AREAS=20
+CLICKABLE_AREAS=30
 PANEL_WIDTH=$(xdpyinfo | awk '/dimensions/{print $2}' | cut -d 'x' -f 1)
 PANEL_HEIGHT=30
 PANEL_HORIZONTAL_OFFSET=0
@@ -25,4 +25,4 @@ cat "/tmp/lemonblockspipe" | lemonbar -p -a "$CLICKABLE_AREAS" \
     -f "$PANEL_FONT" -f "$PANEL_ICON_FONT" -F "$COLOR_DEFAULT_FG" -B "$COLOR_DEFAULT_BG" \
     -u "$UNDERLINE_HEIGHT" -n "$PANEL_WM_NAME" | bash &
 
-lemonblocks
+# ./bin/lemonblocks

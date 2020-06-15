@@ -16,7 +16,7 @@ void startIntervalHandler(int highestInterval, block *blocks, int numOfBlocks, i
         for (int i = 0; i < highestInterval; i++) {
             for (int j = 0; j < numOfBlocks; j++) {
                 if (blocks[j].interval != 0 && i % blocks[j].interval == 0) {
-                    printf("Reached interval %d for %s.\n", blocks[j].interval, blocks[j].icon);
+                    /* printf("Reached interval %d for %s.\n", blocks[j].interval, blocks[j].icon); */
                     kill(ppid, blocks[j].signal);
                 }
             }

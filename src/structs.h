@@ -6,7 +6,7 @@ typedef struct {
     unsigned int signal;
     char *icon;
     char *command;
-    char alignment;
+    char *alignment;
     char *status;
     char *bgColor;
     char *fgColor;

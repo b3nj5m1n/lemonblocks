@@ -75,7 +75,7 @@ block *parseConfig(int *numOfBlocks, int *highestInterval)
         current.command = field;
         // Alignment
         field = strtok(NULL, "#");
-        current.alignment = field[0];
+        current.alignment = field;
         // Status
         field = strtok(NULL, "#");
         current.status = field;
