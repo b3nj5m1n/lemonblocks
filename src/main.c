@@ -15,6 +15,7 @@
 #include "configParser.h"
 #include "signalHandler.h"
 #include "intervalHandler.h"
+#include "statusHandler.h"
 
 
 /* Constants */
@@ -113,6 +114,7 @@ int main(int argc, char *argv[])
             exit(0);
         }
     }
+
 
     while (1) {
         sleep(1);
