@@ -3,6 +3,8 @@
 #include <locale.h>
 #include <wchar.h>
 #include <string.h>
+#include <unistd.h>
+#include <pwd.h>
 
 /* Parses the config */
 
@@ -22,7 +24,11 @@ block *parseConfig(int *numOfBlocks, int *highestInterval)
     
     /* Count number of lines in config file */
     // Open config file
-    FILE* file = fopen("config.txt", "r");
+    char *conffile = malloc(sizeof(char) * 100);
+    strcpy(conffile, "");
+    strcat(conffile, getpwuid(getuid())->pw_dir);
+    strcat(conffile, "/.config/lemonblocks/config.txt");
+    FILE* file = fopen(conffile, "r");
     // File will be read char by char, the current char will be stored in this variable
     char c;
     // Count number of lines in file
@@ -39,7 +45,7 @@ block *parseConfig(int *numOfBlocks, int *highestInterval)
 
     /* Parse config file */
     // Open config file
-    file = fopen("config.txt", "r");
+    file = fopen(conffile, "r");
 
     // Variable to keep track of the current line
     int l = 0;

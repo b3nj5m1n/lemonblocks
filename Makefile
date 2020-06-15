@@ -37,6 +37,10 @@ install: $(OUT)
 	install -D -m 755 start.sh ${BINDIR}/start-lemonbar.sh
 	install -D -m 755 test-scripts/* ${BINDIR}/
 
+config:
+	mkdir ~/.config/lemonblocks/
+	cp config.txt ~/.config/lemonblocks/
+
 clean:
 	rm -rf $(ODIR)/*.o
 
