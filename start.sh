@@ -25,4 +25,4 @@ cat "/tmp/lemonblockspipe" | lemonbar -p -a "$CLICKABLE_AREAS" \
     -f "$PANEL_FONT" -f "$PANEL_ICON_FONT" -F "$COLOR_DEFAULT_FG" -B "$COLOR_DEFAULT_BG" \
     -u "$UNDERLINE_HEIGHT" -n "$PANEL_WM_NAME" | bash &
 
-# ./bin/lemonblocks
+lemonblocks

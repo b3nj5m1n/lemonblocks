@@ -60,7 +60,7 @@ void writeFullStatus(block *blocks, int numOfBlocks)
     /* flushPipe(); */
 
     // Variable for status to write
-    char *status = malloc(sizeof(char) * numOfBlocks * 2048 * 2);
+    char *status = malloc(sizeof(char) * numOfBlocks * 2048);
     strcpy(status, "\n");
 
     // Keep track of alignment
