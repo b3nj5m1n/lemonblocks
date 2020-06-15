@@ -79,6 +79,12 @@ block *parseConfig(int *numOfBlocks, int *highestInterval)
         // Status
         field = strtok(NULL, "#");
         current.status = field;
+        // Background Color
+        field = strtok(NULL, "#");
+        current.bgColor = field;
+        // Foreground Color
+        field = strtok(NULL, "#");
+        current.fgColor = field;
 
         blocks[l] = current;
 

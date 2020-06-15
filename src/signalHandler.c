@@ -8,6 +8,7 @@
 /* HEADERS */
 #include "main.h"
 #include "signalHandler.h"
+#include "statusHandler.h"
 
 block *sig_blocks;
 int *sig_numOfBlocks;
@@ -52,7 +53,10 @@ void sighandler(int signal)
     if (PID == getpid()) {
         // Get the index of the block for the received signal
         int index = getIndex(signal);
-        printf("Received signal %d for block %s.\n", signal, sig_blocks[index].icon);
+        printf("Received signal %d for block %s\n", signal, sig_blocks[index].icon);
+        if (updateStatus(&sig_blocks[index]) == 0) {
+            printf("Status has changed. New status: %s\n", sig_blocks[index].status);
+        }
     }
 }
 

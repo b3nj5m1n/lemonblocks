@@ -21,7 +21,7 @@
 /* Constants */
 
 // Path to the named pipe used by lemonbar
-const char* fifo = "/tmp/lemonblockspipe";
+const char* fifo = "/tmp/lemonblockspipetest";
 
 
 /* Global Variables */
@@ -88,15 +88,18 @@ int main(int argc, char *argv[])
 
     /* printf("Number of blocks: %d highest interval: %d\n", numOfBlocks, highestInterval); */
 
-    /* for (int i = 0; i < numOfBlocks; i++) { */
-    /*     printf("Interval: %d, ", blocks[i].interval); */
-    /*     printf("Signal: %d, ", blocks[i].signal); */
-    /*     printf("Icon: %s, ", blocks[i].icon); */
-    /*     printf("Command: %s, ", blocks[i].command); */
-    /*     printf("Alignment: %c, ", blocks[i].alignment); */
-    /*     printf("Status: %s, ", blocks[i].status); */
-    /*     printf("\n"); */
-    /* } */
+    for (int i = 0; i < numOfBlocks; i++) {
+        /* printf("Interval: %d, ", blocks[i].interval); */
+        /* printf("Signal: %d, ", blocks[i].signal); */
+        /* printf("Icon: %s, ", blocks[i].icon); */
+        /* printf("Command: %s, ", blocks[i].command); */
+        /* printf("Alignment: %c, ", blocks[i].alignment); */
+        /* printf("Status: %s, ", blocks[i].status); */
+        /* printf("Background Color: %s, ", blocks[i].bgColor); */
+        /* printf("Foreground Color: %s, ", blocks[i].fgColor); */
+        /* printf("\n"); */
+        updateStatus(&blocks[i]);
+    }
 
 
     // If there is at least one interval higher then zero, the interval handler is needed
@@ -115,6 +118,10 @@ int main(int argc, char *argv[])
         }
     }
 
+    // Connect to the pipe
+    connectToPipe();
+
+    writeStatus(&blocks[0]);
 
     while (1) {
         sleep(1);

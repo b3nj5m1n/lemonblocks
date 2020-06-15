@@ -8,6 +8,8 @@ typedef struct {
     char *command;
     char alignment;
     char *status;
+    char *bgColor;
+    char *fgColor;
 } block;
 
 #endif
