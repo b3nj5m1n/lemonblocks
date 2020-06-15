@@ -101,7 +101,6 @@ int main(int argc, char *argv[])
         updateStatus(&blocks[i]);
     }
 
-
     // If there is at least one interval higher then zero, the interval handler is needed
     if (highestInterval > 0) {
         /* Create a new process for handeling the intervals */
