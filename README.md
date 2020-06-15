@@ -1,9 +1,9 @@
 # lemonblocks
 A status bar generator for lemonbar, inspired by i3blocks and dwmblocks.
 
-![demo](https://i.imgur.com/DuCCc2G.png)
+![demo](https://i.imgur.com/NkMaIH8.png)
 
-![demo](https://i.imgur.com/J1X7mQu.png)
+![demo](https://i.imgur.com/5tAUizO.png)
 
 
 # lemonbar
@@ -11,10 +11,11 @@ Lemonbar is a very leightweight bar. The original doesn't support XFT fonts, for
 
 Lemonbar reads from stdin for the status, it supports clickable areas, the commands will be written to stout.
 
-Lemonblocks aims to make feeding the bar easier. You can define your own modules (At compile time, at least for now) which you can asign signals. Every time you want to update one of your modules, you can send a signal to the instance of lemonblocks to run the associated command. This means that you don't have to run a script at certain intervals, instead you update it only when necessary.
+Lemonblocks aims to make feeding the bar easier. You can define your own modules which you can asign signals. Every time you want to update one of your modules, you can send a signal to the instance of lemonblocks to run the associated command. This means that you don't have to run a script at certain intervals, instead you update it only when necessary.
 
 # Installing
 ```bash
+# Install lemonblocks
 sudo make install
 ```
 # Starting
@@ -35,23 +36,18 @@ pkill lemonblocks -3
 ```
 
 # Config
-The config is located in config.h, every time you change something you need to recompile the program.
-```c
-// Icon, Command, Interval, Signal (Except 2 & 9), Foreground Color, Background Color, Align (Needs to be specified in the correct order here, otherwise modules will overlap)
-static const block blocks[] = {
-	{"🍍",	"./test-scripts/powermenu.sh", 0, 3, "#f8f8ff", "", 'l'},
-	{"",	"./test-scripts/bspwm.sh", 1, 4, "#f8f8ff", "", 'l'},
-	{"",	"./test-scripts/cmus.sh", 1,	5, "#f8f8ff", "", 'c'},
-	{"🔈",	"./test-scripts/volume.sh", 0,	6, "#f8f8ff", "", 'c'},
-	{"",	"./test-scripts/layout.sh", 0,	7, "#f8f8ff", "", 'r'},
-	{"",	"./test-scripts/network.sh", 60,	8, "#f8f8ff", "", 'r'},
-	{"",	"./test-scripts/date.sh", 60,	10, "#f8f8ff", "", 'r'},
-};
-
-// Maximum length for the output of a module
-static int MAX_LEN = 1500;
-// The delimiter between modules
-static char *DELIM = "   ";
-// The delimiter between the icon and the command output
-static char *DELIM_ICON = " ";
+You can configure your modules in the file config.txt located at ~/.config/lemonblocks. (Run make config to create the directory and copy the default config)
+```
+# For now, values are seperated using #
+# Interval  Signal  Command Alignment   Initial Status  BgColor FgColor
+# Interval of 0 means it will only be updated by signals. NULL means nothing or default value for icons and colors respectively
+# Example config:
+0#3#🍍#powermenu.sh#l# #NULL#f8f8ff
+1#4#NULL#bspwm.sh#l# #NULL#f8f8ff
+1#5#NULL#cmus.sh#l# #NULL#f8f8ff
+0#6#🔈#volume.sh#r# #aa1d1f21#f8f8ff
+0#7#📁#free-space.sh#r# #aa1d1f21#f8f8ff
+0#8#🐒#layout.sh#r# #aa1d1f21#f8f8ff
+300#10#NULL#network.sh#r# #aa1d1f21#f8f8ff
+30#11#⏰#date.sh#r# #aa1d1f21#f8f8ff
 ```
