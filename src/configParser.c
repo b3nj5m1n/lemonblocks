@@ -70,6 +70,7 @@ block *parseConfig(int *numOfBlocks, int *highestInterval)
         // Icon
         field = strtok(NULL, "#");
         current.icon = field;
+        if ( strcmp(current.icon, "NULL") == 0 ) { current.icon = ""; }
         // Command
         field = strtok(NULL, "#");
         current.command = field;
@@ -82,9 +83,11 @@ block *parseConfig(int *numOfBlocks, int *highestInterval)
         // Background Color
         field = strtok(NULL, "#");
         current.bgColor = field;
+        if ( strcmp(current.bgColor, "NULL") == 0 ) { current.bgColor = "-"; }
         // Foreground Color
         field = strtok(NULL, "#");
         current.fgColor = field;
+        if ( strcmp(current.fgColor, "NULL") == 0 ) { current.fgColor = "-"; }
 
         blocks[l] = current;
 
