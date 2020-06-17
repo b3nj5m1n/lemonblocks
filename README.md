@@ -39,15 +39,15 @@ pkill lemonblocks -3
 You can configure your modules in the file config.txt located at ~/.config/lemonblocks. (Run make config to create the directory and copy the default config)
 ```
 # Seperate values with a , (No space afterwards)
-# Interval  Signal  Command Alignment   Initial Status  BgColor FgColor
-# Interval of 0 means it will only be updated by signals. NULL means nothing or default value for icons and colors respectively
+# Interval  Signal  Command Alignment   Initial Status  BgColor FgColor LeftClick   MiddleClick RightClick  ScrollUp    ScrollDown
+# Interval of 0 means it will only be updated by signals. NULL means nothing or default value for icons, colors and mouse events
 # Example config:
-0,3,🍍,powermenu.sh,l, ,NULL,f8f8ff
-1,4,NULL,bspwm.sh,l, ,NULL,f8f8ff
-1,5,NULL,cmus.sh,l, ,NULL,f8f8ff
-0,6,🔈,volume.sh,r, ,aa1d1f21,f8f8ff
-0,7,📁,free-space.sh,r, ,aa1d1f21,f8f8ff
-0,8,🐒,layout.sh,r, ,aa1d1f21,f8f8ff
-300,10,NULL,network.sh,r, ,aa1d1f21,f8f8ff
-30,11,⏰,date.sh,r, ,aa1d1f21,f8f8ff
+0,3,🍍,powermenu.sh,l, ,NULL,f8f8ff,NULL,NULL,NULL,NULL,NULL
+1,4,NULL,bspwm.sh,l, ,NULL,f8f8ff,NULL,NULL,NULL,NULL,NULL
+1,5,NULL,cmus.sh,l, ,NULL,f8f8ff,cmus-remote -u; pkill lemonblocks -5,NULL,NULL,cmus-remote -v +1%,cmus-remote -v -1%
+0,6,🔈,volume.sh,r, ,aa1d1f21,f8f8ff,amixer set Master toggle; pkill lemonblocks -6,NULL,NULL,amixer -q sset Master 1%+; pkill lemonblocks -6,amixer -q sset Master 1%-; pkill lemonblocks -6
+0,7,📁,free-space.sh,r, ,aa1d1f21,f8f8ff,NULL,NULL,NULL,NULL,NULL
+0,8,🐒,layout.sh,r, ,aa1d1f21,f8f8ff,NULL,NULL,NULL,NULL,NULL
+300,10,NULL,network.sh,r, ,aa1d1f21,f8f8ff,NULL,NULL,NULL,NULL,NULL
+30,11,⏰,date.sh,r, ,aa1d1f21,f8f8ff,NULL,NULL,NULL,NULL,NULL
 ```
