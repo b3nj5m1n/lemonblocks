@@ -38,7 +38,7 @@ install: $(OUT)
 	install -D -m 755 test-scripts/* ${BINDIR}/
 
 config:
-	mkdir ~/.config/lemonblocks/
+	mkdir -p ~/.config/lemonblocks/
 	cp config.txt ~/.config/lemonblocks/
 
 clean:

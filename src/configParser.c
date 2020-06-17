@@ -13,6 +13,7 @@
 #include "structs.h"
 #include "configParser.h"
 #include "signalHandler.h"
+#include "statusHandler.h"
 
 block *parseConfig(int *numOfBlocks, int *highestInterval)
 {
@@ -99,6 +100,68 @@ block *parseConfig(int *numOfBlocks, int *highestInterval)
         field = strtok(NULL, ",");
         current.fgColor = field;
         if ( strcmp(current.fgColor, "NULL") == 0 ) { current.fgColor = "-"; }
+        // On left click
+        field = strtok(NULL, ",");
+        current.onLeftClick = field;
+        // On middle click
+        field = strtok(NULL, ",");
+        current.onMiddleClick = field;
+        // On right click
+        field = strtok(NULL, ",");
+        current.onRightClick = field;
+        // On scroll up
+        field = strtok(NULL, ",");
+        current.onScrollUp = field;
+        // On scroll down
+        field = strtok(NULL, ",");
+        current.onScrollDown = field;
+
+        printf("l: %s; u: %s; d: %s\n", current.onLeftClick, current.onScrollUp, current.onScrollDown);
+
+        // Generate pre & suffix
+        current.prefix = malloc( strlen(current.onRightClick)+ strlen(current.onMiddleClick)+ strlen(current.onLeftClick)+ strlen(current.onScrollDown)+ strlen(current.onScrollUp));
+        strcpy(current.prefix, "");
+        // Colors
+        if (strcmp(current.fgColor, "-") != 0)
+            strcat(current.prefix, surround(current.fgColor, "%{F#", "}"));
+        else
+            strcat(current.prefix, surround(current.fgColor, "%{F", "}"));
+        if (strcmp(current.bgColor, "-") != 0)
+            strcat(current.prefix, surround(current.bgColor, "%{B#", "}"));
+        else
+            strcat(current.prefix, surround(current.fgColor, "%{B", "}"));
+        // Set click & scroll events
+        int clickableAreas = 0;
+        if (strcmp(current.onLeftClick, "NULL") != 0) {
+            strcat(current.prefix, surround(current.onLeftClick, "%{A1:", ":}"));
+            clickableAreas++;
+        }
+        if (strcmp(current.onMiddleClick, "NULL") != 0) {
+            strcat(current.prefix, surround(current.onMiddleClick, "%{A2:", ":}"));
+            clickableAreas++;
+        }
+        if (strcmp(current.onRightClick, "NULL") != 0) {
+            strcat(current.prefix, surround(current.onRightClick, "%{A3:", ":}"));
+            clickableAreas++;
+        }
+        if (strcmp(current.onScrollUp, "NULL") != 0) {
+            strcat(current.prefix, surround(current.onScrollUp, "%{A4:", ":}"));
+            clickableAreas++;
+        }
+        if (strcmp(current.onScrollDown, "NULL") != 0) {
+            strcat(current.prefix, surround(current.onScrollDown, "%{A5:", ":}"));
+            clickableAreas++;
+        }
+        current.suffix = malloc(2048);
+        strcpy(current.suffix, "");
+        for (int i = 0; i < clickableAreas; i++) {
+            strcat(current.suffix, "%{A}");
+        }
+        strcat(current.suffix, "%{F-}");
+        strcat(current.suffix, "%{B-}");
+
+        printf("PREFIX: %s\n", current.prefix);
+        printf("SUFFIX: %s\n", current.suffix);
 
         blocks[l] = current;
 

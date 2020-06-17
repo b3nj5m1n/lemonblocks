@@ -15,16 +15,9 @@ else
     # Cmus is running, so find out if it's playing or paused and echo the corresponding glyph
     if grep -q "status playing"  <<< "$info"
     then 
-        printf "%%{A:cmus-remote -u; pkill lemonblocks -5:}\
-%%{A4:cmus-remote -v +1%%:}\
-%%{A5:cmus-remote -v -1%%:}\
- ";
+        printf " ";
     else
-        printf "%%{A1:cmus-remote -u; pkill lemonblocks -5:}\
-%%{A4:cmus-remote -v +1%%:}\
-%%{A5:cmus-remote -v -1%%:}\
-  %%{A1}%%{A4}%%{A5}";
-        # pkill lemonblocks -5
+        printf " ";
         exit
     fi
 fi
@@ -47,7 +40,7 @@ b="%%{F#ff0066}"
 m="%%{F-}"
 # What to put at the end of the string
 # e="\e[0m"
-e="%%{A1}%%{A4}%%{A5}"
+e=""
 
 song="$b"${song:0:$perc_chr}"$m"${song:$perc_chr:$chrlen}"$e"
 printf "$song"

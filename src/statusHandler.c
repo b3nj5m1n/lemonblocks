@@ -76,15 +76,9 @@ void writeFullStatus(block *blocks, int numOfBlocks)
             // The alignment didn't change, so write the delimiter first
             strcat(status, DELIMITER);
         }
-        // Set for and background color
-        strcat(status, "%{F#");
-        strcat(status, blocks[i].fgColor);
-        strcat(status, "}");
-        strcat(status, "%{B#");
-        strcat(status, blocks[i].bgColor);
-        strcat(status, "}");
 
-
+        // Write prefix
+        strcat(status, blocks[i].prefix);
 
         // Write the icon for the current block
         strcat(status, blocks[i].icon);
@@ -93,15 +87,11 @@ void writeFullStatus(block *blocks, int numOfBlocks)
         // Write the status for the current block to the pipe
         strcat(status, blocks[i].status);
 
-
         // Change the alignment to the alignment of the current block
         alignment = blocks[i].alignment;
 
-
-
-        // Reset for and background color;
-        strcat(status, "%{B-}");
-        strcat(status, "%{F-}");
+        // Write suffix
+        strcat(status, blocks[i].suffix);
     }
     /* printf("%s\n", status); */
     /* strcat(status, "\n"); */
