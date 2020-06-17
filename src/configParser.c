@@ -70,33 +70,33 @@ block *parseConfig(int *numOfBlocks, int *highestInterval)
         // Split the line into fields seperated by #
         char *field = malloc(256);
         // Interval
-        field = strtok(line, "#");
+        field = strtok(line, ",");
         current.interval = atoi(field);
         if (current.interval > *highestInterval) {
             *highestInterval = current.interval;
         }
         // Signal
-        field = strtok(NULL, "#");
+        field = strtok(NULL, ",");
         current.signal = atoi(field);
         // Icon
-        field = strtok(NULL, "#");
+        field = strtok(NULL, ",");
         current.icon = field;
         if ( strcmp(current.icon, "NULL") == 0 ) { current.icon = ""; }
         // Command
-        field = strtok(NULL, "#");
+        field = strtok(NULL, ",");
         current.command = field;
         // Alignment
-        field = strtok(NULL, "#");
+        field = strtok(NULL, ",");
         current.alignment = field;
         // Status
-        field = strtok(NULL, "#");
+        field = strtok(NULL, ",");
         current.status = field;
         // Background Color
-        field = strtok(NULL, "#");
+        field = strtok(NULL, ",");
         current.bgColor = field;
         if ( strcmp(current.bgColor, "NULL") == 0 ) { current.bgColor = "-"; }
         // Foreground Color
-        field = strtok(NULL, "#");
+        field = strtok(NULL, ",");
         current.fgColor = field;
         if ( strcmp(current.fgColor, "NULL") == 0 ) { current.fgColor = "-"; }
 

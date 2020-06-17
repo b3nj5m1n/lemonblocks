@@ -38,16 +38,16 @@ pkill lemonblocks -3
 # Config
 You can configure your modules in the file config.txt located at ~/.config/lemonblocks. (Run make config to create the directory and copy the default config)
 ```
-# For now, values are seperated using #
+# Seperate values with a , (No space afterwards)
 # Interval  Signal  Command Alignment   Initial Status  BgColor FgColor
 # Interval of 0 means it will only be updated by signals. NULL means nothing or default value for icons and colors respectively
 # Example config:
-0#3#🍍#powermenu.sh#l# #NULL#f8f8ff
-1#4#NULL#bspwm.sh#l# #NULL#f8f8ff
-1#5#NULL#cmus.sh#l# #NULL#f8f8ff
-0#6#🔈#volume.sh#r# #aa1d1f21#f8f8ff
-0#7#📁#free-space.sh#r# #aa1d1f21#f8f8ff
-0#8#🐒#layout.sh#r# #aa1d1f21#f8f8ff
-300#10#NULL#network.sh#r# #aa1d1f21#f8f8ff
-30#11#⏰#date.sh#r# #aa1d1f21#f8f8ff
+0,3,🍍,powermenu.sh,l, ,NULL,f8f8ff
+1,4,NULL,bspwm.sh,l, ,NULL,f8f8ff
+1,5,NULL,cmus.sh,l, ,NULL,f8f8ff
+0,6,🔈,volume.sh,r, ,aa1d1f21,f8f8ff
+0,7,📁,free-space.sh,r, ,aa1d1f21,f8f8ff
+0,8,🐒,layout.sh,r, ,aa1d1f21,f8f8ff
+300,10,NULL,network.sh,r, ,aa1d1f21,f8f8ff
+30,11,⏰,date.sh,r, ,aa1d1f21,f8f8ff
 ```
