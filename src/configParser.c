@@ -23,11 +23,16 @@ block *parseConfig(int *numOfBlocks, int *highestInterval)
     }
     
     /* Count number of lines in config file */
-    // Open config file
+    // Get path to config file
     char *conffile = malloc(sizeof(char) * 100);
     strcpy(conffile, "");
     strcat(conffile, getpwuid(getuid())->pw_dir);
     strcat(conffile, "/.config/lemonblocks/config.txt");
+    if( access( conffile, F_OK ) == -1 ) {
+        printf("Could not find config file.\n");
+        exit(1);
+    }
+    // Open config file
     FILE* file = fopen(conffile, "r");
     // File will be read char by char, the current char will be stored in this variable
     char c;
