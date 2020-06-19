@@ -9,9 +9,7 @@ ODIR = obj
 SDIR = src
 LINK = -lpthread
 
-# System bin dir
-PREFIX?=/usr
-BINDIR=${PREFIX}/bin
+BINDIR=/usr/bin
 
 # Output binary
 OUT = bin/lemonblocks
@@ -35,7 +33,8 @@ statusHandler.o: src/statusHandler.c
 install: $(OUT)
 	install -D -m 755 ${OUT} ${BINDIR}/lemonblocks
 	install -D -m 755 start.sh ${BINDIR}/start-lemonbar.sh
-	install -D -m 755 test-scripts/* ${BINDIR}/
+	mkdir -p ${BINDIR}/lbscripts/
+	install -D -m 755 test-scripts/* ${BINDIR}/lbscripts/
 
 config:
 	mkdir -p ~/.config/lemonblocks/
