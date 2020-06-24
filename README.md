@@ -17,6 +17,10 @@ Lemonblocks aims to make feeding the bar easier. You can define your own modules
 ```bash
 # Install lemonblocks
 sudo make install
+# Copy default config to the correct location
+make config
+# Copy scripts (start-lemonbar.sh & the default modules)
+sudo make scripts
 ```
 # Starting
 

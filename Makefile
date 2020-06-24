@@ -32,6 +32,8 @@ statusHandler.o: src/statusHandler.c
 
 install: $(OUT)
 	install -D -m 755 ${OUT} ${BINDIR}/lemonblocks
+
+scripts:
 	install -D -m 755 start.sh ${BINDIR}/start-lemonbar.sh
 	mkdir -p ${BINDIR}/lbscripts/
 	install -D -m 755 test-scripts/* ${BINDIR}/lbscripts/
