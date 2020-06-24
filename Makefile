@@ -36,7 +36,7 @@ install: $(OUT)
 scripts:
 	install -D -m 755 start.sh ${BINDIR}/start-lemonbar.sh
 	mkdir -p ${BINDIR}/lbscripts/
-	install -D -m 755 test-scripts/* ${BINDIR}/lbscripts/
+	install -D -m 755 modules/* ${BINDIR}/lbscripts/
 
 config:
 	mkdir -p ~/.config/lemonblocks/
