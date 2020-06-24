@@ -13,6 +13,12 @@ Lemonbar reads from stdin for the status, it supports clickable areas, the comma
 
 Lemonblocks aims to make feeding the bar easier. You can define your own modules which you can asign signals. Every time you want to update one of your modules, you can send a signal to the instance of lemonblocks to run the associated command. This means that you don't have to run a script at certain intervals, instead you update it only when necessary.
 
+# Dependencies
+
+* [lemonbar](https://github.com/freundTech/bar)
+* (Optional) [Ubuntu Mono Font](https://aur.archlinux.org/packages/nerd-fonts-ubuntu-mono/)
+* (Optional) [Twemoji Font (Twitters emojis)](https://aur.archlinux.org/packages/ttf-twemoji/)
+
 # Installing
 ```bash
 # Install lemonblocks
