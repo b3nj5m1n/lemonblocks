@@ -32,4 +32,9 @@ sleep 0.5
 wid=$(xdo id -a "$PANEL_WM_NAME")
 xdo above -t "$(xdo id -N Bspwm -n root | sort | head -n 1)" "$wid"
 
-lemonblocks
+if [ $# -eq 0 ]
+then
+    lemonblocks
+else
+    ./bin/lemonblocks
+fi
