@@ -42,5 +42,5 @@ m="%%{F-}"
 # e="\e[0m"
 e=""
 
-song="$b"${song:0:$perc_chr}"$m"${song:$perc_chr:$chrlen}"$e"
+song="$b${song:0:$perc_chr}$m${song:$perc_chr:$chrlen}$e"
 printf "$song"
