@@ -5,8 +5,6 @@
 all=$(bspc query -D)
 # Query bspwm for all desktops that have something on them
 occupied=$(bspc query -D -d .occupied)
-# Query bspwm for all desktops that don't have something on them
-notoccupied=$(bspc query -D -d .\!occupied)
 # Query bspwm for the current desktop
 current=$(bspc query -D -d .focused)
 
