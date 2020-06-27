@@ -118,10 +118,10 @@ int updateStatus(block *blockToUpdate)
     // Compare strings
     if (strcmp(result, blockToUpdate->status) == 0) {
         // The status hasn't changed since the last call
+        free(result);
         return 1;
     }
     else {
-        /* free(blockToUpdate->status); */
         blockToUpdate->status = result;
         return 0;
     }
