@@ -1,4 +1,7 @@
 # lemonblocks
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/eabecb6ab1b44d9583eb3371fdbe8587)](https://app.codacy.com/manual/b3nj4m1n/lemonblocks?utm_source=github.com&utm_medium=referral&utm_content=b3nj5m1n/lemonblocks&utm_campaign=Badge_Grade_Dashboard)
+
 A status bar generator for lemonbar, inspired by i3blocks and dwmblocks.
 
 ![demo](https://i.imgur.com/NkMaIH8.png)
