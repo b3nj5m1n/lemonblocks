@@ -5,7 +5,6 @@ A status bar generator for lemonbar, inspired by i3blocks and dwmblocks.
 
 ![demo](https://i.imgur.com/5tAUizO.png)
 
-
 ## lemonbar
 Lemonbar is a very leightweight bar. The original doesn't support XFT fonts, for that you will have to use a fork, such as [this one](https://aur.archlinux.org/packages/lemonbar-xft-git/), but if you want to have emojis you should probably use [this fork](https://github.com/freundTech/bar).
 
@@ -15,9 +14,9 @@ Lemonblocks aims to make feeding the bar easier. You can define your own modules
 
 ## Dependencies
 
-  * [lemonbar](https://github.com/freundTech/bar)
-  * (Optional) [Ubuntu Mono Font](https://aur.archlinux.org/packages/nerd-fonts-ubuntu-mono/)
-  * (Optional) [Twemoji Font (Twitters emojis)](https://aur.archlinux.org/packages/ttf-twemoji/)
+*   [lemonbar](https://github.com/freundTech/bar)
+*   (Optional) [Ubuntu Mono Font](https://aur.archlinux.org/packages/nerd-fonts-ubuntu-mono/)
+*   (Optional) [Twemoji Font (Twitters emojis)](https://aur.archlinux.org/packages/ttf-twemoji/)
 
 ## Installing
 ```bash
