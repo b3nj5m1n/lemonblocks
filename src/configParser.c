@@ -115,6 +115,14 @@ block *parseConfig(int *numOfBlocks, int *highestInterval)
         // On scroll down
         field = strtok(NULL, ",");
         current.onScrollDown = field;
+        // Prefix
+        field = strtok(NULL, ",");
+        char *tmp_prefix = field;
+        if ( strcmp(tmp_prefix, "NULL") == 0 ) { tmp_prefix = ""; }
+        // suffix
+        field = strtok(NULL, ",");
+        char *tmp_suffix = field;
+        if ( strcmp(tmp_suffix, "NULL") == 0 ) { tmp_suffix = ""; }
 
         printf("l: %s; u: %s; d: %s\n", current.onLeftClick, current.onScrollUp, current.onScrollDown);
 
@@ -152,8 +160,19 @@ block *parseConfig(int *numOfBlocks, int *highestInterval)
             strcat(current.prefix, surround(current.onScrollDown, "%{A5:", ":}"));
             clickableAreas++;
         }
+        strcat(current.prefix, tmp_prefix);
         current.suffix = malloc(2048);
         strcpy(current.suffix, "");
+        // Colors
+        if (strcmp(current.fgColor, "-") != 0)
+            strcat(current.suffix, surround(current.fgColor, "%{F#", "}"));
+        else
+            strcat(current.suffix, surround(current.fgColor, "%{F", "}"));
+        if (strcmp(current.bgColor, "-") != 0)
+            strcat(current.suffix, surround(current.bgColor, "%{B#", "}"));
+        else
+            strcat(current.suffix, surround(current.fgColor, "%{B", "}"));
+        strcat(current.suffix, tmp_suffix);
         for (int i = 0; i < clickableAreas; i++) {
             strcat(current.suffix, "%{A}");
         }

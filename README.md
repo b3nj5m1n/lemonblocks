@@ -51,15 +51,15 @@ pkill lemonblocks -3
 You can configure your modules in the file config.txt located at ~/.config/lemonblocks. (Run make config to create the directory and copy the default config)
 ```c
 # Seperate values with a , (No space afterwards)
-# Interval  Signal  Command Alignment   Initial Status  BgColor FgColor LeftClick   MiddleClick RightClick  ScrollUp    ScrollDown
+# Interval  Signal Icon  Command Alignment   Initial Status  BgColor FgColor LeftClick   MiddleClick RightClick  ScrollUp    ScrollDown Prefix Suffix
 # Interval of 0 means it will only be updated by signals. NULL means nothing or default value for icons, colors and mouse events
 # Example config:
-0,3,🍍,/usr/bin/lbscripts/powermenu.sh,l, ,NULL,f8f8ff,NULL,NULL,NULL,NULL,NULL
-1,4,NULL,/usr/bin/lbscripts/bspwm.sh,l, ,NULL,f8f8ff,NULL,NULL,NULL,NULL,NULL
-1,5,NULL,/usr/bin/lbscripts/cmus.sh,l, ,NULL,f8f8ff,cmus-remote -u; pkill lemonblocks -5,NULL,NULL,cmus-remote -v +1%,cmus-remote -v -1%
-0,6,🔈,/usr/bin/lbscripts/volume.sh,r, ,aa1d1f21,f8f8ff,amixer set Master toggle; pkill lemonblocks -6,NULL,NULL,amixer -q sset Master 1%+; pkill lemonblocks -6,amixer -q sset Master 1%-; pkill lemonblocks -6
-0,7,📁,/usr/bin/lbscripts/free-space.sh,r, ,aa1d1f21,f8f8ff,NULL,NULL,NULL,NULL,NULL
-0,8,🐒,/usr/bin/lbscripts/layout.sh,r, ,aa1d1f21,f8f8ff,NULL,NULL,NULL,NULL,NULL
-300,10,NULL,/usr/bin/lbscripts/network.sh,r, ,aa1d1f21,f8f8ff,NULL,NULL,NULL,NULL,NULL
-30,11,⏰,/usr/bin/lbscripts/date.sh,r, ,aa1d1f21,f8f8ff,NULL,NULL,NULL,NULL,NULL
+0,3,🍍,/usr/bin/lbscripts/powermenu.sh,l, ,NULL,f8f8ff,NULL,NULL,NULL,NULL,NULL,[,]
+1,4,NULL,/usr/bin/lbscripts/bspwm.sh,l, ,NULL,f8f8ff,NULL,NULL,NULL,NULL,NULL,[,]
+1,5,NULL,/usr/bin/lbscripts/cmus.sh,l, ,NULL,f8f8ff,cmus-remote -u; pkill lemonblocks -5,NULL,NULL,cmus-remote -v +1%,cmus-remote -v -1%,[,]
+0,6,🔈,/usr/bin/lbscripts/volume.sh,r, ,aa1d1f21,f8f8ff,amixer set Master toggle; pkill lemonblocks -6,NULL,NULL,amixer -q sset Master 1%+; pkill lemonblocks -6,amixer -q sset Master 1%-; pkill lemonblocks -6,[,]
+0,7,📁,/usr/bin/lbscripts/free-space.sh,r, ,aa1d1f21,f8f8ff,NULL,NULL,NULL,NULL,NULL,[,]
+0,8,🐒,/usr/bin/lbscripts/layout.sh,r, ,aa1d1f21,f8f8ff,NULL,NULL,NULL,NULL,NULL,[,]
+300,10,NULL,/usr/bin/lbscripts/network.sh,r, ,aa1d1f21,f8f8ff,NULL,NULL,NULL,NULL,NULL,[,]
+30,11,⏰,/usr/bin/lbscripts/date.sh,r, ,aa1d1f21,f8f8ff,NULL,NULL,NULL,NULL,NULL,[,]
 ```

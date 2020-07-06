@@ -10,7 +10,7 @@
 
 /* Configuration */
 char *DELIMITER = "  ";
-char *ICON_DELIMITER = " ";
+char *ICON_DELIMITER = "";
 const char *FOREGROUND_COLOR[3] = { "%{F#", "}", "%{F-}" };
 const char *BACKGROUND_COLOR[3] = { "%{B#", "}", "%{B-}" };
 const char *LINE_COLOR[3] = { "%{U#", "}", "%{U-}" };
