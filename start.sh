@@ -2,7 +2,7 @@
 
 CLICKABLE_AREAS=30
 PANEL_WIDTH=$(xdpyinfo | awk '/dimensions/{print $2}' | cut -d 'x' -f 1)
-PANEL_HEIGHT=30
+PANEL_HEIGHT=25
 PANEL_HORIZONTAL_OFFSET=0
 PANEL_VERTICAL_OFFSET=0
 PANEL_FONT="UbuntuMono Nerd Font Mono:size=12"
