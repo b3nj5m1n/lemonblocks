@@ -28,7 +28,6 @@
 ## Table of Contents
 
 * [About the Project](#about-the-project)
-  * [Built With](#built-with)
 * [Getting Started](#getting-started)
   * [Prerequisites](#prerequisites)
   * [Installation](#installation)
@@ -44,6 +43,10 @@
 [![Product Name Screen Shot][product-screenshot]]()
 
 A status bar generator for lemonbar, inspired by i3blocks and dwmblocks, written in plain C.
+
+![demo](https://i.imgur.com/VEPfM47.gif)
+
+![demo](https://i.imgur.com/NkMaIH8.png)
 
 Lemonbar reads from stdin for the status, it supports clickable areas, the commands will be written to stout.
 
