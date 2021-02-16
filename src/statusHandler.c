@@ -122,6 +122,9 @@ int updateStatus(block *blockToUpdate)
         return 1;
     }
     else {
+        if(blockToUpdate->status) {
+            free(blockToUpdate->status);
+        }
         blockToUpdate->status = result;
         return 0;
     }

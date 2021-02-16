@@ -91,7 +91,8 @@ block *parseConfig(int *numOfBlocks, int *highestInterval)
         current.alignment = field;
         // Status
         field = strtok(NULL, ",");
-        current.status = field;
+        current.status = malloc(strlen(field)+1);
+        strcpy(current.status, field);
         // Background Color
         field = strtok(NULL, ",");
         current.bgColor = field;
