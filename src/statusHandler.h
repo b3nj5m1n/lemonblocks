@@ -7,6 +7,6 @@
 char *surround(char *stringToSurround, char *surrounderOne, char *surrounderTwo);
 char *setAttribute(char *content, const char **attributeConfig, char *attributeContent);
 void writeFullStatus(block *blocks, int numOfBlocks);
-int updateStatus(block *blockToUpdate);
+void updateStatus(block *blockToUpdate);
 
 #endif

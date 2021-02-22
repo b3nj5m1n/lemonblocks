@@ -102,10 +102,8 @@ void writeFullStatus(block *blocks, int numOfBlocks)
 }
 
 // Run the associated command and update the status, return 0 if the status has changed
-int updateStatus(block *blockToUpdate)
+void updateStatus(block *blockToUpdate)
 {
-    // Variable to store the result in for comparison
-    char *result = malloc(1024);
     // Run the command
     FILE *cmd;
     cmd = popen(blockToUpdate->command, "r");
@@ -113,16 +111,6 @@ int updateStatus(block *blockToUpdate)
         printf("Failed to run command\n" );
         exit(1);
     }
-    fgets(result, 1024, cmd);
+    fgets(blockToUpdate->status, 1024, cmd);
     pclose(cmd);
-    // Compare strings
-    if (strcmp(result, blockToUpdate->status) == 0) {
-        // The status hasn't changed since the last call
-        free(result);
-        return 1;
-    }
-    else {
-        blockToUpdate->status = result;
-        return 0;
-    }
 }
